@@ -10,7 +10,7 @@ export default function App() {
     </View>
   );
 }
-
+// set up nativewind
 const styles = StyleSheet.create({
   container: {
     flex: 1,
