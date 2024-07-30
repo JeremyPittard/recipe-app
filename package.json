@@ -25,7 +25,9 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "^15.4.0",
     "react-native-webview": "^13.10.5",
-    "react-native-youtube-iframe": "^2.3.0"
+    "react-native-youtube-iframe": "^2.3.0",
+    "reanimated-masonry-list": "^1.0.1",
+    "react-native-gesture-handler": "~2.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

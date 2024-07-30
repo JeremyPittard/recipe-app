@@ -11,16 +11,20 @@ import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import CategoryList from "./category-list/CategoryList";
 import { useEffect, useState } from "react";
 import RecipeList from "./recipe-list";
+import Loading from "../../components/loading";
+import recipeList from "./recipe-list";
 
 const HomeScreen = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("1");
+  const [activeCategory, setActiveCategory] = useState<string>("beef");
   const [categories, setCategories] = useState<any>([]);
+  const [recipes, setRecipes] = useState<any>([]);
 
-  // TODO move to services file. create a type for the respose
+  // TODO move to services file. create a type for the respose,
+  // make it a get data and take params for the endpoint
   const getCategories = async () => {
     try {
       const response = await fetch(
-        "https://www.themealdb.com/api/json/v1/1/categories.php"
+        "https://themealdb.com/api/json/v1/1/categories.php"
       );
 
       if (!response.ok) {
@@ -34,13 +38,37 @@ const HomeScreen = () => {
     }
   };
 
+  const getRecipes = async (category = "dessert") => {
+    try {
+      const response = await fetch(
+        `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setRecipes(data.meals);
+    } catch (error) {
+      throw new Error(`HTTP error! status: ${error}`);
+    }
+  };
+
+  const handleCategoryChange = (category: string) => {
+    getRecipes(category);
+    setActiveCategory(category);
+    setRecipes([]);
+  };
+
   useEffect(() => {
     getCategories();
+    getRecipes();
   }, []);
 
   return (
     <View className="flex-1 bg-white">
-      <StatusBar style="dark" />
+      <StatusBar style="dark" backgroundColor="white" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 50 }}
@@ -74,11 +102,15 @@ const HomeScreen = () => {
           <CategoryList
             categories={categories}
             activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
+            handleCategoryChange={handleCategoryChange}
           />
         </View>
         <View>
-          <RecipeList />
+          {categories.length === 0 || recipes.length === 0 ? (
+            <Loading size="large" />
+          ) : (
+            <RecipeList recipes={recipes} />
+          )}
         </View>
       </ScrollView>
     </View>

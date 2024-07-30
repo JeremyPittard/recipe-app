@@ -5,13 +5,13 @@ import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 type CategoryProps = {
   categories: any[];
   activeCategory: string;
-  setActiveCategory: React.Dispatch<React.SetStateAction<string>>;
+  handleCategoryChange: any;
 };
 
 const CategoryList = ({
   categories,
   activeCategory,
-  setActiveCategory,
+  handleCategoryChange,
 }: CategoryProps) => {
   return (
     <Animated.View
@@ -31,12 +31,12 @@ const CategoryList = ({
             idCategory: index,
           } = cat;
 
-          const isActive: boolean = activeCategory === index;
+          const isActive: boolean = activeCategory === name.toLowerCase();
           const ActiveClass = isActive ? "bg-amber-500" : "bg-black/5";
           return (
             <Pressable
               key={`category-${index}`}
-              onPress={() => setActiveCategory(index)}
+              onPress={() => handleCategoryChange(name.toLowerCase())}
               className="flex items-center space-y-1 active:opacity-50"
             >
               <View className="rounded-full p-1">
