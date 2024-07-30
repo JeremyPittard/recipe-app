@@ -12,7 +12,6 @@ import CategoryList from "./category-list/CategoryList";
 import { useEffect, useState } from "react";
 import RecipeList from "./recipe-list";
 import Loading from "../../components/loading";
-import recipeList from "./recipe-list";
 
 const HomeScreen = () => {
   const [activeCategory, setActiveCategory] = useState<string>("beef");

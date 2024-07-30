@@ -1,6 +1,8 @@
-import { View, Text, ScrollView, Pressable, Image } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import React from "react";
 import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
+import { Image } from "expo-image";
+import { blurhash } from "../../../constants/vars";
 
 type CategoryProps = {
   categories: any[];
@@ -43,7 +45,8 @@ const CategoryList = ({
                 <Image
                   source={{ uri: imgSrc }}
                   className={`w-16 h-16 rounded-full ${ActiveClass}`}
-                  resizeMode="contain"
+                  contentFit="cover"
+                  placeholder={{ blurhash }}
                 />
               </View>
               <Text>{name}</Text>

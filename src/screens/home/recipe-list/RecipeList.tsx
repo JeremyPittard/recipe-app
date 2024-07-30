@@ -1,6 +1,8 @@
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import MasonryList from "reanimated-masonry-list";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { Image } from "expo-image";
+import { useNavigation } from "@react-navigation/native";
 
 type RecipeListProps = {
   recipes: any;
@@ -9,6 +11,7 @@ type RecipeListProps = {
 // TODO create skeletons
 
 const RecipeList = ({ recipes }: RecipeListProps) => {
+  const navigation = useNavigation();
   return (
     <View className="mx-4 space-y-3">
       <Text className="font-semibold">RecipeList</Text>
@@ -18,7 +21,9 @@ const RecipeList = ({ recipes }: RecipeListProps) => {
           keyExtractor={(item): string => item.idMeal}
           numColumns={2}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item, i }) => <RecipeCard item={item} index={i} />}
+          renderItem={({ item, i }) => (
+            <RecipeCard item={item} index={i} navigation={navigation} />
+          )}
           onEndReachedThreshold={0.1}
           style={{ gap: 16 }}
         />
@@ -30,9 +35,12 @@ const RecipeList = ({ recipes }: RecipeListProps) => {
 type RecipeCardProps = {
   item: any;
   index: any;
+  navigation: any;
 };
 
-const RecipeCard = ({ item, index }: RecipeCardProps) => {
+// TODO move to own component
+
+const RecipeCard = ({ item, index, navigation }: RecipeCardProps) => {
   const height = index % 3 === 0 ? 25 : 35;
   return (
     <Animated.View
@@ -41,7 +49,10 @@ const RecipeCard = ({ item, index }: RecipeCardProps) => {
         .springify()
         .damping(20)}
     >
-      <Pressable className="w-full flex justify-center mb-4 space-y-2">
+      <Pressable
+        className="w-full flex justify-center mb-4 space-y-2"
+        onPress={() => navigation.navigate("RecipeDetails", { ...item })}
+      >
         <Image
           source={{ uri: item.strMealThumb }}
           className={`w-full ${

@@ -27,7 +27,8 @@
     "react-native-webview": "^13.10.5",
     "react-native-youtube-iframe": "^2.3.0",
     "reanimated-masonry-list": "^1.0.1",
-    "react-native-gesture-handler": "~2.16.1"
+    "react-native-gesture-handler": "~2.16.1",
+    "expo-image": "~1.12.13"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
